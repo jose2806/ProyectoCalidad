@@ -1,0 +1,200 @@
+﻿@{
+    /**/
+
+    /**/
+
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<style>
+    #map {
+        height: 500px;
+        width: 100%;
+    }
+</style>
+
+<br>
+<h1 style="text-align:center">Camino de Costa Rica</h1>
+<h3>Ruta @ViewBag.RouteInfo[0].id</h3>
+<h3>Inicio: @ViewBag.RouteInfo[0].start</h3>
+<h3>Fin: @ViewBag.RouteInfo[0].finish</h3>
+<h3>Distancia: @ViewBag.RouteInfo[0].distance km</h3>
+<h3></h3>
+
+<script src="https://www.google.com/jsapi"></script>
+
+<div id="map"></div>
+<div id="elevation_chart"></div>
+
+@section scripts {
+    <script type="text/javascript">
+
+        let map;
+        let elevator;
+        google.load("visualization", "1", { packages: ["columnchart"] });
+
+        function createPathArray(pathInfo)
+        {
+            let pathArray = [];
+            for (let i = 0; i < pathInfo.length; ++i)
+            {
+                pathArray.push(new google.maps.LatLng(pathInfo[i].latitude, pathInfo[i].longitude));
+            }
+            return pathArray;
+        }
+
+        function createMarkerArray(placeInfo)
+        {
+            let markerArray = [];
+            for (let i = 0; i < placeInfo.length; ++i)
+            {
+                markerArray.push(
+                    {
+                        coords: new google.maps.LatLng(placeInfo[i].latitude, placeInfo[i].longitude),
+                        iconImage: 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png',
+                        content: '<h3>' + placeInfo[i].name+'</h3>' + '<p>' + placeInfo[i].description+'</p>'
+                    }
+                );
+            }
+            return markerArray;
+        }
+
+        function initMap()
+        {
+            var options = {
+                zoom: 8,
+                center: { lat: 9.854328, lng: -83.610901 },
+                mapTypeId: 'satellite'
+            }
+            map = new google.maps.Map(document.getElementById('map'), options);
+
+            const elevator = new google.maps.ElevationService();
+            const infowindow = new google.maps.InfoWindow({});
+
+            infowindow.open(map);
+            //Display the elevation for the LatLng of the click inside the infowindow.
+            map.addListener("click", (event) => {
+                displayLocationElevation(event.latLng, elevator, infowindow);
+            });
+
+            let pathInfo = @Html.Raw(Json.Encode(@ViewBag.pathInfo));
+            let path = createPathArray(pathInfo);
+
+            let placeInfo = @Html.Raw(Json.Encode(@ViewBag.placeInfo));
+            let places = createMarkerArray(placeInfo);
+            for (var i = 0; i < places.length; i++)
+            {
+                addMarker(places[i]);
+            }
+
+            displayPathElevation(path, elevator, map);
+
+            function addMarker(props)
+            {
+                var marker = new google.maps.Marker({
+                    position: props.coords,
+                    map: map,
+                    //icon:props.iconImage
+                });
+                // Check for customicon
+                if (props.iconImage)
+                {
+                    marker.setIcon(props.iconImage);
+                }
+                // Check content
+                if (props.content)
+                {
+                    var infoWindow = new google.maps.InfoWindow({
+                        content: props.content
+                    });
+                    marker.addListener('click', function () {
+                        infoWindow.open(map, marker);
+                    });
+                }
+            }
+        }
+
+        function displayLocationElevation(location, elevator, infowindow)
+        {
+            // Initiate the location request
+            elevator
+                .getElevationForLocations({
+                    locations: [location],
+                })
+                .then(({ results }) => {
+                    infowindow.setPosition(location);
+                    // Retrieve the first result
+                    if (results[0]) {
+                        // Open the infowindow indicating the elevation at the clicked position.
+                        infowindow.setContent(
+                            "Elevación:<br> " +
+                            results[0].elevation +
+                            " metros."
+                        );
+                    } else {
+                        infowindow.setContent("Sin resultados");
+                    }
+                })
+                .catch((e) =>
+                    infowindow.setContent("Servicio de elevación falló: " + e)
+                );
+        }
+
+        function displayPathElevation(path, elevator, map)
+        {
+            new google.maps.Polyline({
+                path: path,
+                strokeColor: "#ffb703",
+                strokeOpacity: 0.8,
+                map: map,
+            });
+            // Create a PathElevationRequest object using this array.
+            // Ask for 256 samples along that path.
+            // Initiate the path request.
+            elevator
+                .getElevationAlongPath({
+                    path: path,
+                    samples: 256,
+                })
+                .then(plotElevation)
+                .catch((e) => {
+                    const chartDiv = document.getElementById("elevation_chart");
+                    chartDiv.innerHTML = "No se pudo mostrar elevación " + e;
+                });
+        }
+
+        function plotElevation({ results })
+        {
+            const chartDiv = document.getElementById("elevation_chart");
+            // Create a new chart in the elevation_chart DIV.
+            const chart = new google.visualization.ColumnChart(chartDiv);
+            // Extract the data from which to populate the chart.
+            // Because the samples are equidistant, the 'Sample'
+            // column here does double duty as distance along the
+            // X axis.
+            const data = new google.visualization.DataTable();
+
+            data.addColumn("string", "Sample");
+            data.addColumn("number", "Elevation");
+
+            for (let i = 0; i < results.length; i++) {
+                data.addRow(["", results[i].elevation]);
+            }
+
+            // Draw the chart using the data within its DIV.
+            chart.draw(data, {
+                height: 150,
+                legend: "none",
+                titleY: "Elevación (m)",
+            });
+        }
+        window.initMap = initMap;
+    </script>
+    <script async defer
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDCTYqs_Jmm73H0IRieidmcvFFvFY0DMXM&callback=initMap">
+    </script>
+}

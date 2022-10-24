@@ -1,0 +1,188 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+            crossorigin="anonymous"></script>
+    <meta charset="utf-8" />
+    @Styles.Render("~/Content/css")
+    @Styles.Render("~/Content/Styles.css")
+    @Scripts.Render("~/Scripts/*js")
+    <title>El Camino de Costa Rica</title>
+    <link rel="icon" type="image/x-icon" href=favicon.ico />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <script>
+        function logOut() {
+            document.cookie = 'userLoginInfo=;expires=Thu, 01 Jan 1970 00:00:01 GMT;'
+            //TempData["Menu"] = "guest";
+        }
+    </script>
+</head>
+
+<body class="body_Form">
+    
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+
+            <a class="navbar-brand" href="#">
+                <image src="favicon.ico" width="30" height="24" class="d-inline-block align-text-top"></image>
+                @Html.ActionLink("El Camino de Costa Rica", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+            </a>
+
+            <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                <ul class="navbar-nav">
+                    @switch (TempData.Peek("Menu"))
+                    {
+
+                        case "user":
+
+                            <nav class="navbar navbar-light bg-light">
+                                <div class="container-fluid">
+                                    <a class="nav-link" href="/Route/Index">
+                                        La Ruta
+                                    </a>
+                                </div>
+                            </nav>
+
+                            <li class="nav-item">
+                                <a class="btn-sm" style="background-color:white" onclick="logOut()" id="lo_Btn" href="/">
+                                    <img src="https://cdn-icons.flaticon.com/png/512/3889/premium/3889524.png?token=exp=1655252205~hmac=51c1cdea93f870c648e07530ba7bb55a"
+                                         alt="" width="30" height="24" class="d-inline-block align-text-top">
+                                </a>
+                            </li>
+
+                            break;
+
+                        case "admin":
+
+                            <nav class="navbar navbar-light bg-light">
+                                <div class="container-fluid">
+                                    <a class="nav-link" href="/Register/userlist">
+                                        Usuarios Registrados
+                                    </a>
+                                </div>
+                            </nav>
+                            <nav class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Categorias
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <li><a class="dropdown-item" href="/Category/categoryList">Lista de Categorias</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item" href="/Category/addCategory">Añadir Categorias</a></li>
+                                </ul>
+                            </nav>
+                            <nav class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Proveedores
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <li><a class="dropdown-item" href="/Supplier/supplierList">Lista de Proveedores</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item" href="/Supplier/addSupplier">Añadir Proveedores</a></li>
+                                </ul>
+                            </nav>
+                            <nav class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Servicios
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <li><a class="dropdown-item" href="/Service/serviceList">Lista de Servicios</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item" href="/Service/addService">Añadir Servicios</a></li>
+                                </ul>
+                            </nav>
+                            <nav class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Rutas
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <li><a class="dropdown-item" href="/Route/routeList">Lista de Rutas</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item" href="/Route/addRoute">Añadir Rutas</a></li>
+                                </ul>
+                            </nav>
+                            <nav class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Etapas
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <li><a class="dropdown-item" href="/Stage/stageList">Lista de Etapas</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item" href="/Stage/addStage">Añadir Etapas</a></li>
+                                </ul>
+                            </nav>
+                            <nav class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Encuestas
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <li><a class="dropdown-item" href="/Survey/surveyList">Lista de Encuestas</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item" href="/Survey/addSurvey">Añadir Encuesas</a></li>
+                                </ul>
+                            </nav>
+                            <nav class="navbar navbar-light bg-light">
+                                <div class="container-fluid">
+
+                                </div>
+                            </nav>
+
+                            <a class="btn-sm" style="background-color:white" onclick="logOut()" id="lo_Btn" href="/">
+                                <img src="https://cdn-icons.flaticon.com/png/512/3889/premium/3889524.png?token=exp=1655252205~hmac=51c1cdea93f870c648e07530ba7bb55a"
+                                     alt="" width="30" height="24" class="d-inline-block align-text-top">
+                            </a>
+
+                            break;
+
+                        default:
+                            <nav class="navbar navbar-light bg-light">
+                                <div class="container-fluid">
+                                    <a class="nav-link" href="/Route">
+                                        La Ruta
+                                    </a>
+                                </div>
+                            </nav>
+                            <nav class="navbar navbar-light bg-light">
+                                <div class="container-fluid">
+                                    <a class="nav-link" href="/Register/Register">
+                                        Registrarse
+                                    </a>
+                                </div>
+                            </nav>
+                            <nav class="navbar navbar-light bg-light">
+                                <div class="container-fluid">
+                                    <a class="nav-link" href="/Login/Login">
+                                        Iniciar Sesion
+                                    </a>
+                                </div>
+                            </nav>
+
+                            break;
+                    }
+
+
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="body_Form">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+        </footer>
+    </div>
+
+
+
+
+    @Scripts.Render("~/Scripts/jquery")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

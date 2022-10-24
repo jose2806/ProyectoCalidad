@@ -1,0 +1,42 @@
+﻿@model ElCaminoDeCostaRica.Models.Category
+
+
+<html>
+<head>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/Content/Styles.css")
+    <link rel="stylesheet" href="Styles.css" />
+    <link rel="icon" type="image/x-icon" href=favicon.ico />
+    <title>EL CAMINO DE COSTA RICA</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+</head>
+<body class="body_Index">
+
+    <div class="container_Rose formTitleCenter">
+
+        @using (Html.BeginForm("categoryEdit", "Category", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+
+@Html.AntiForgeryToken()
+                <h1>Formulario de edicion de categoria</h1>
+                                <div class="form-horizontal">
+                                    @Html.HiddenFor(model => model.id)
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.name)
+                                        @Html.TextBoxFor(model => model.name, new { @class = "formcontrol" })
+                                        @Html.ValidationMessageFor(model => model.name, "", new { @class = "text-danger" })
+                                    </div>
+                                    <div>
+                                        <input type="submit" class="btn btn-success" value="Aplicar cambios" />
+                                    </div>
+                                </div>}
+    </div>
+</body>
+@section Scripts
+{
+    @Scripts.Render("~/bundles/jqueryval")
+}
+</html>
+

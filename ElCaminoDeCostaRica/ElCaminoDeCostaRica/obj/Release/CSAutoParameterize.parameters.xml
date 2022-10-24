@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<parameters>
+  <parameter name="CaminoCRConnection-Web.config Connection String" description="CaminoCRConnection Connection String used in web.config by the application to access the database." defaultValue="Data Source=caminocr.database.windows.net;Initial Catalog=CaminoCR;Persist Security Info=True;User ID=pollo;Password=D2m6MiXv" tags="SqlConnectionString">
+    <parameterEntry kind="XmlFile" scope="D:\\Visual\ Studio\\Repos\\proyectointegrado-elcaminodecostarica\\ElCaminoDeCostaRica\\ElCaminoDeCostaRica\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='CaminoCRConnection']/@connectionString" />
+  </parameter>
+</parameters>

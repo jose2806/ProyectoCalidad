@@ -1,0 +1,48 @@
+﻿@model ElCaminoDeCostaRica.Models.Category
+<html>
+<head>
+    <link rel="stylesheet" href="Styles.css" />
+    <link rel="icon" type="image/x-icon" href=favicon.ico />
+    <title>Usuarios</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+</head>
+<body class="body_Index">
+    <div class="container_Green formTitleCenter">
+
+
+        @{
+            using (Html.BeginForm("addCategory", "Category", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+
+                @Html.AntiForgeryToken()
+                <h1 class="formTitleCenter">Crear categoria</h1>
+                <form class="align-content-md-center">
+                    @Html.LabelFor(model => model.name)
+                    @Html.TextBoxFor(model => model.name, new { @class = "formTitleCenter" })
+                    @Html.ValidationMessageFor(model => model.name, "", new { @class = "text-danger" })
+
+                </form>
+            }
+            <input type="submit" class="btn btn-success btnCreate" value="Crear" />
+            if (ViewBag.Message != null)
+            {
+                if (ViewBag.Success)
+                {
+                    <div class="alert-success">
+                        <h3> @ViewBag.Message </h3>
+                    </div>
+                }
+                else
+                {
+                    <div class="alert-danger">
+                        <h3> @ViewBag.Message </h3>
+                    </div>
+                }
+            }
+        }
+    </div>
+</body>
+@section Scripts { @Scripts.Render("~/bundles/jqueryval") }
+</html>
+

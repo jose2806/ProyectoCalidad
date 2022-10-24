@@ -1,0 +1,44 @@
+﻿@model ElCaminoDeCostaRica.Models.Route
+@{ ViewBag.Title = "Rutas"; }
+<html>
+<head>
+</head>
+
+<body class="body_Index">
+
+    <h1 class="formTitleCenter">Lista de rutas</h1>
+    <div class="container_Green" id="s1">
+        <table class="table">
+            <tr>
+                <th class="text-center">Id</th>
+                <th class="text-center">Nombre</th>
+                <th class="text-center">Inicio</th>
+                <th class="text-center">Final</th>
+                <th class="text-center">Distancia en KM</th>
+
+            </tr>
+            <tbody>
+                @foreach (var route in ViewBag.routes)
+                {
+                    <tr>
+                        <td class="text-center"> @route.id </td>
+                        <td class="text-center"> @route.name </td>
+                        <td class="text-center"> @route.start </td>
+                        <td class="text-center"> @route.finish </td>
+                        <td class="text-center"> @route.distance </td>
+
+                        <td>
+                            @Html.ActionLink("Modificar", "routeEdit", new { identificador = route.id },
+                                      new { @class = "btn btn alert-info", @onclick = "return confirm('¿Quiere modificar esta ruta ? ');" })
+                        </td>
+                        <td>
+                            @Html.ActionLink("Borrar", "routeDelete", new { identificador = route.id },
+                                  new { @class = "btn btn alert-info", @onclick = "return confirm('¿Quiere borrar esta ruta? ');" })
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

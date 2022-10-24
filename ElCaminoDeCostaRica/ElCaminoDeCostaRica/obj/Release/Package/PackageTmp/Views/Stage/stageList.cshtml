@@ -1,0 +1,51 @@
+﻿@model ElCaminoDeCostaRica.Models.Stage
+@{ ViewBag.Title = "Etapas"; }
+<html>
+<head>
+</head>
+
+<body>
+    <div class="container_Green">
+        <h1 align="center" style="color:black; font-family:Agrozza Demo">Lista de etapas</h1>
+        <div class="seccion_1" id="s1">
+            <table class="table">
+                <tr>
+                    <th class="text-center">Id</th>
+                    <th class="text-center">Nombre</th>
+                    <th class="text-center">Inicio</th>
+                    <th class="text-center">Final</th>
+                    <th class="text-center">Distancia en KM</th>
+                    <th class="text-center">Altimetria minima MSNM</th>
+                    <th class="text-center">Altimetria maxima MSNM</th>
+                    <th class="text-center">Ruta</th>
+
+                </tr>
+                <tbody>
+                    @foreach (var stage in ViewBag.stages)
+                    {
+                        <tr>
+                            <td class="text-center"> @stage.id </td>
+                            <td class="text-center"> @stage.name </td>
+                            <td class="text-center"> @stage.start </td>
+                            <td class="text-center"> @stage.finish </td>
+                            <td class="text-center"> @stage.distance </td>
+                            <td class="text-center"> @stage.minAltimetry </td>
+                            <td class="text-center"> @stage.maxAltimetry </td>
+                            <td class="text-center"> @stage.idRoute </td>
+
+                            <td>
+                                @Html.ActionLink("Modificar", "stageEdit", new { identificador = stage.id },
+                                          new { @class = "btn btn alert-info", @onclick = "return confirm('¿Quiere modificar esta etapa ? ');" })
+                            </td>
+                            <td>
+                                @Html.ActionLink("Borrar", "stageDelete", new { identificador = stage.id },
+                                      new { @class = "btn btn alert-info", @onclick = "return confirm('¿Quiere borrar esta etapa? ');" })
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>

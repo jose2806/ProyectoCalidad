@@ -1,0 +1,40 @@
+﻿@model ElCaminoDeCostaRica.Models.Question
+@{ ViewBag.Title = "Preguntas"; }
+<html>
+<head>
+</head>
+
+<body class="body_Form">
+
+    <h1 align="center" style="color:black; font-family:Agrozza Demo">Lista de preguntas</h1>
+    <div class="seccion_1" id="s1">
+        <table class="table">
+            <tr>
+                <th class="text-center">Encuesta</th>
+                <th class="text-center">Servicio</th>
+                <th class="text-center">Pregunta</th>
+
+            </tr>
+            <tbody>
+                @foreach (var question in ViewBag.questions)
+                {
+                    <tr>
+                        <td class="text-center"> @question.idSurvey </td>
+                        <td class="text-center"> @question.idService </td>
+                        <td class="text-center"> @question.question </td>
+
+                        <td>
+                            @Html.ActionLink("Modificar", "", new { },
+                                      new { @class = "btn btn alert-info", @onclick = "return confirm('¿Quiere modificar esta pregunta ? ');" })
+                        </td>
+                        <td>
+                            @Html.ActionLink("Borrar", "questionkDelete", new { identificador = question.idSurvey },
+                                  new { @class = "btn btn alert-info", @onclick = "return confirm('¿Quiere borrar esta pregunta? ');" })
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

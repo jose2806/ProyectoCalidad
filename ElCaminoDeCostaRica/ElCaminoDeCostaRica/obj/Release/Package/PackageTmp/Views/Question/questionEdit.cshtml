@@ -1,0 +1,48 @@
+﻿@model ElCaminoDeCostaRica.Models.Question
+@{
+    List<SelectListItem> surveys = new List<SelectListItem>();
+    List<SelectListItem> services = new List<SelectListItem>();
+    foreach (var survey in ViewBag.Surveys)
+    {
+        surveys.Add(
+        new SelectListItem { Text = Convert.ToString(survey.id), Value = Convert.ToString(survey.id) }
+        );
+    }
+
+    foreach (var service in ViewBag.Services)
+    {
+        services.Add(
+        new SelectListItem { Text = Convert.ToString(service.name), Value = Convert.ToString(service.id) }
+        );
+    }
+}
+
+<html>
+<head>
+</head>
+<body>
+    @using (Html.BeginForm("questionEdit", "Question", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+@Html.AntiForgeryToken()
+                <h1>Formulario de edicion de pregunta</h1>
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.idSurvey, new { @class = "formLabel" })
+                                    @Html.DropDownListFor(model => model.idSurvey, surveys, "-Sin selección - ", new { @class = "form - control" })
+                                    @Html.ValidationMessageFor(model => model.idSurvey, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.idService, new { @class = "formLabel" })
+                                    @Html.DropDownListFor(model => model.idService, services, "-Sin selección - ", new { @class = "form - control" })
+                                    @Html.ValidationMessageFor(model => model.idService, "", new { @class = "text-danger" })
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.question, new { @class = "formLabel" })
+                                    @Html.TextBoxFor(model => model.question, new { @class = "formcontrol, formInput" })
+                                    @Html.ValidationMessageFor(model => model.question, "", new { @class = "text-danger" })
+                                </div>
+                                            </body>}
+    @section Scripts
+{
+        @Scripts.Render("~/bundles/jqueryval")
+    }
+</html>

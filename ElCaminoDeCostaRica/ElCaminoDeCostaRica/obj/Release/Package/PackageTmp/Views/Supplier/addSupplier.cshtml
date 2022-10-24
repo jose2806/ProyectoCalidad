@@ -1,0 +1,85 @@
+﻿@model ElCaminoDeCostaRica.Models.Supplier
+
+<html>
+<head>
+
+</head>
+<body>
+    <div class="container_Green formTitleCenter">
+        <div id="map"></div>
+        <style>
+            #map {
+                height: 400px;
+                width: 100%;
+                
+            }
+        </style>
+
+        <label for="place">Buscar un lugar cercano a su ubicación</label>
+        <p>Puede navegar por el mapa y dar click en un lugar para obtener las coordenadas exactas</p>
+        <input type="text" id="placeInput" name="place"><br>
+        <button id="searchBtn">Buscar</button>
+
+        @using (Html.BeginForm("addSupplier", "Supplier", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+            @Html.AntiForgeryToken()
+            <h1 class="formTitle" style="text-align:center">Crear Proveedor</h1>
+            <div class="form-horizontal">
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.name, new { @class = "formLabel" })
+                    @Html.TextBoxFor(model => model.name, new { @class = "form-control, formInput" })
+                    @Html.ValidationMessageFor(model => model.name, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.longitude, new { @class = "formLabel" })
+                    @Html.TextBoxFor(model => model.longitude, new { @class = "formcontrol, formInput" })
+                    @Html.ValidationMessageFor(model => model.longitude, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.latitude, new { @class = "formLabel" })
+                    @Html.TextBoxFor(model => model.latitude, new { @class = "formcontrol, formInput" })
+                    @Html.ValidationMessageFor(model => model.latitude, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.email, new { @class = "formLabel" })
+                    @Html.TextBoxFor(model => model.email, new { @class = "formcontrol, formInput" })
+                    @Html.ValidationMessageFor(model => model.email, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.phone, new { @class = "formLabel" })
+                    @Html.TextBoxFor(model => model.phone, new { @class = "formcontrol, formInput" })
+                    @Html.ValidationMessageFor(model => model.phone, "", new { @class = "text-danger" })
+                </div>
+
+            </div>
+            <div>
+
+                <input type="submit" class="btn btn-success btnCreate" value="Crear" />
+            </div>
+            if (ViewBag.Message != null)
+            {
+                if (ViewBag.Success)
+                {
+                    <div class="alert-success">
+                        <h3> @ViewBag.Message </h3>
+                    </div>
+                }
+                else
+                {
+                    <div class="alert-danger">
+                        <h3> @ViewBag.Message </h3>
+                    </div>
+                }
+            }
+        }
+    </div>
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDCTYqs_Jmm73H0IRieidmcvFFvFY0DMXM&callback=initMap&libraries=places&v=weekly"
+                defer>
+        </script>
+</body>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/myjs")
+}
+</html>

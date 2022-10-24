@@ -1,0 +1,73 @@
+﻿@model ElCaminoDeCostaRica.Models.Survey
+@{
+    List<SelectListItem> categories = new List<SelectListItem>();
+    List<SelectListItem> services = new List<SelectListItem>();
+    foreach (var category in ViewBag.Categories)
+    {
+        categories.Add(
+        new SelectListItem { Text = Convert.ToString(category.name), Value = Convert.ToString(category.id) }
+        );
+    }
+
+    foreach (var service in ViewBag.Services)
+    {
+        services.Add(
+        new SelectListItem { Text = Convert.ToString(service.name), Value = Convert.ToString(service.id) }
+        );
+    }
+}
+
+<html>
+<head>
+</head>
+<body>
+    <div class="container_Rose formTitleCenter">
+        @using (Html.BeginForm("surveyEdit", "Survey", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+
+            @Html.AntiForgeryToken()
+            <h1>Formulario de edicion de encuesta</h1>
+            <div class="form-horizontal">
+                @Html.HiddenFor(model => model.id)
+                <div class="form-group">
+                    <div class="form-style-9" ; style="color:black">
+                        @Html.LabelFor(model => model.version, new { @class = "formLabel" })
+                        @Html.TextBoxFor(model => model.version, new { @class = "form-control, formInput", @style="text-align:center"})
+                        @Html.ValidationMessageFor(model => model.version, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="form-style-9" ; style="color:black">
+                        @Html.LabelFor(model => model.day, new { @class = "formLabel" })
+                        @Html.TextBoxFor(model => model.day, new { @type = "date", @class = "form-control, formInput" })
+                        @Html.ValidationMessageFor(model => model.day, "", new { @class = "text-danger" })
+
+
+                    </div>
+
+                    <div class="form-style-9" ; style="color:black">
+                        @Html.LabelFor(model => model.idCategory, new { @class = "formLabel" })
+                        @Html.DropDownListFor(model => model.idCategory, categories, "-Sin selección - ", new { @class = "form-control, formInput" })
+                        @Html.ValidationMessageFor(model => model.idCategory, "", new { @class = "text-danger" })
+
+
+                    </div>
+
+                    <div class="form-style-9" ; style="color:black">
+                        @Html.LabelFor(model => model.idService, new { @class = "formLabel" })
+                        @Html.DropDownListFor(model => model.idService, services, "-Sin selección - ", new { @class = "form-control, formInput" })
+                        @Html.ValidationMessageFor(model => model.idService, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div>
+                        <input type="submit" class="btn btn-success" value="Aplicar cambios" />
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</body>
+@section Scripts
+{
+    @Scripts.Render("~/bundles/jqueryval")
+}
+</html>

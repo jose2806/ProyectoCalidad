@@ -1,0 +1,64 @@
+﻿@model ElCaminoDeCostaRica.Models.Feedback
+@{
+    List<SelectListItem> services = new List<SelectListItem>();
+    List<SelectListItem> surveys = new List<SelectListItem>();
+    foreach (var service in ViewBag.Services)
+    {
+        services.Add(
+        new SelectListItem { Text = Convert.ToString(service.name), Value = Convert.ToString(service.id) }
+        );
+    }
+    foreach (var survey in ViewBag.Surveys)
+    {
+        surveys.Add(
+        new SelectListItem { Text = Convert.ToString(survey.id), Value = Convert.ToString(survey.id) }
+        );
+    }
+
+}
+
+<html>
+<head>
+</head>
+<body>
+
+    @using (Html.BeginForm("feedbackEdit", "Feedback", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+
+@Html.AntiForgeryToken()
+                <h1>Formulario de edicion de feedback</h1>
+                                <div class="form-horizontal">
+                                    @Html.HiddenFor(model => model.idSurvey)
+                                    <div class="form-group">
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.idSurvey)
+                                            @Html.DropDownListFor(model => model.idSurvey, surveys, "-Sin selección - ", new { @class = "form - control" })
+                                            @Html.ValidationMessageFor(model => model.idSurvey, "", new { @class = "text-danger" })
+                                        </div>
+                                        @Html.LabelFor(model => model.idService)
+                                        @Html.DropDownListFor(model => model.idService, services, "-Sin selección - ", new { @class = "form - control" })
+                                        @Html.ValidationMessageFor(model => model.idService, "", new { @class = "text-danger" })
+                                    </div>
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.rating)
+                                        @Html.TextBoxFor(model => model.rating, new { @class = "formcontrol" })
+                                        @Html.ValidationMessageFor(model => model.rating, "", new { @class = "text-danger" })
+                                    </div>
+                                    <div class="form-group">
+                                        @Html.LabelFor(model => model.comments)
+                                        @Html.TextBoxFor(model => model.comments, new { @class = "formcontrol" })
+                                        @Html.ValidationMessageFor(model => model.comments, "", new { @class = "text-danger" })
+                                    </div>
+
+
+                                    <div>
+                                        <input type="submit" class="btn btn-success" value="Aplicar cambios" />
+                                    </div>
+                                </div>}
+</body>
+@section Scripts
+{
+    @Scripts.Render("~/bundles/jqueryval")
+}
+</html>
+

@@ -1,0 +1,91 @@
+﻿@model ElCaminoDeCostaRica.Models.User
+@{ ViewBag.Title = "Iniciar sesion"; }
+
+<html>
+<head>
+    <meta charset="utf-8" />
+    @Styles.Render("~/Content/css")
+    @Styles.Render("~/Content/Styles.css")
+    @Scripts.Render("~/Script/modernizr")
+    <title>El Camino de Costa Rica</title>
+    <link rel="icon" type="image/x-icon" href=favicon.ico />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+</head>
+
+<body class="body_Login">
+    <div class="formTitleCenter">
+        @if (ViewBag.Success != null)
+        {
+            <div class="alert-success">
+                <h3>@ViewBag.Message</h3>
+            </div>
+        }
+
+
+        @{ string User_name = string.Empty;
+            string User_password = string.Empty;
+            HttpCookie reqCookies = Request.Cookies["userInfo"];
+            if (reqCookies != null)
+            {
+                User_name = reqCookies["email"].ToString();
+                User_password = reqCookies["password"].ToString();
+            }
+            else
+            {
+                using (Html.BeginForm("Login", "Login", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                {
+
+
+                    @Html.AntiForgeryToken()
+                    <h1>Iniciar Sesión</h1>
+                    @Html.HiddenFor(model => model.id)
+                    <div class="container_Green">
+                        <div>
+                            @Html.LabelFor(model => model.email, new { @class = "formLabel" })
+                            @Html.TextBoxFor(model => model.email, new { @class = "formTitleCenter" })
+                            @Html.ValidationMessageFor(model => model.email, "", new { @class = "text-danger" })
+                        </div>
+                        <div>
+                            @Html.LabelFor(model => model.password, new { @class = "formLabel" })
+                            @Html.PasswordFor(model => model.password, new { @class = "formTitleCenter" })
+                            @Html.ValidationMessageFor(model => model.password, "", new { @class = "text-danger" })
+                        </div>
+
+                        <a href="~/Views/Home/Index.cshtml">
+                            <input type="submit" class="btnLogin" value="Iniciar Sesion" />
+                        </a>
+
+
+                    </div>
+
+
+                }
+            }
+        }
+        @if (ViewBag.Message != null && ViewBag.LoginSuccess != null)
+        {
+            if (ViewBag.LoginSuccess)
+            {
+                <div class="alert-success">
+                    <h3>@ViewBag.Message</h3>
+                </div>
+            }
+            else
+            {
+                <div class="alert-danger">
+                    <h3>@ViewBag.Message</h3>
+                </div>
+            }
+        }
+
+
+    </div>
+
+
+</body>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+</html>

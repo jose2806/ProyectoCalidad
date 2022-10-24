@@ -1,0 +1,43 @@
+﻿@model ElCaminoDeCostaRica.Models.Feedback
+@{ ViewBag.Title = "Feedbacks"; }
+<html>
+<head>
+</head>
+
+<body class="body_Index">
+
+    <h1 align="center" style="color:black; font-family:Agrozza Demo">Lista de feedbacks</h1>
+    <div class="seccion_1" id="s1">
+        <table class="table">
+            <tr>
+                <th class="text-center">Encuesta</th>
+                <th class="text-center">Servicio</th>
+                <th class="text-center">Rating</th>
+                <th class="text-center">Comentarios</th>
+
+            </tr>
+            <tbody>
+                @foreach (var feedback in ViewBag.feedbacks)
+                {
+                    <tr>
+                        <td class="text-center"> @feedback.idSurvey </td>
+                        <td class="text-center"> @feedback.idService </td>
+                        <td class="text-center"> @feedback.rating </td>
+                        <td class="text-center"> @feedback.comments </td>
+
+                        <td>
+                            @Html.ActionLink("Modificar", "", new { },
+                                      new { @class = "btn btn alert-info", @onclick = "return confirm('¿Quiere modificar este feedback ? ');" })
+                        </td>
+                        <td>
+                            @Html.ActionLink("Borrar", "feedbackDelete", new { identificador = feedback.idSurvey },
+                                  new { @class = "btn btn alert-info", @onclick = "return confirm('¿Quiere borrar este feedback? ');" })
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
+
